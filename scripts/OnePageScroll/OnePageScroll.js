@@ -131,9 +131,8 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 				// call by scrollTo 
 				scrollTo = true;
 
+				time = Math.abs(nextItemIndex - currrentIndex) * (this.config.scrollTime);
 				
-				time = Math.abs(nextItemIndex - currrentIndex) * (this.config.scrollTime / 2);
-
 			}
 
 			this.config.isAnimation = true;
