@@ -147,6 +147,8 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 				if(howMuch > 1) {
 					time /= 2;
 				}
+
+				DEBUGGER.run('info', 'Scroll to ' + nextSectionName + ' section in ' + time + ' ms ' , 'OnePageScroll');
 				
 			}
 
@@ -400,7 +402,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 				    
 				    if (config.sectionsEvents) addSectionEvents.call(this, config.sectionsEvents, this.config.mainSections);
 		
-				   // DisableScroll.disable(); 
+				    DisableScroll.disable(); 
 			        initObjects.call(this);
 			        addEvents.call(this);
 
