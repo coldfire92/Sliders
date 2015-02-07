@@ -140,9 +140,9 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 				// call by scrollTo 
 				scrollTo = true;
 
-				var howMuch = nextItemIndex - currrentIndex;
+				var howMuch = Math.abs(nextItemIndex - currrentIndex);
 
-				time = Math.abs(howMuch) * (this.config.scrollTime);
+				time = howMuch * (this.config.scrollTime);
 
 				if(howMuch > 1) {
 					time /= 2;
