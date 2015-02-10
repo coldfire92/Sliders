@@ -1,0 +1,89 @@
+/* line 2, ../../sass/slider/_config.scss */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 7, ../../sass/slider/_config.scss */
+body,
+html {
+  height: 100%;
+  width: 100%;
+}
+
+/* line 14, ../../sass/slider/_config.scss */
+.first.wrapper-slider {
+  height: 400px;
+  margin: 70px auto;
+  position: relative;
+  width: 600px;
+}
+
+/* line 23, ../../sass/slider/_config.scss */
+.second.wrapper-slider {
+  height: 400px;
+  margin: 70px auto;
+  position: relative;
+  width: 400px;
+}
+
+/* line 32, ../../sass/slider/_config.scss */
+button {
+  -moz-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  transform: translate(0, -50%);
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  z-index: 20;
+}
+/* line 41, ../../sass/slider/_config.scss */
+button.prev {
+  left: 20px;
+}
+/* line 47, ../../sass/slider/_config.scss */
+button.next {
+  right: 20px;
+}
+
+/* line 4, ../../sass/slider/slider.scss */
+div.wrapper-slider {
+  overflow: hidden;
+  position: relative;
+}
+/* line 9, ../../sass/slider/slider.scss */
+div.wrapper-slider button {
+  opacity: 0;
+  -moz-transition: visibility 1800ms;
+  -o-transition: visibility 1800ms;
+  -webkit-transition: visibility 1800ms;
+  transition: visibility 1800ms;
+  visibility: hidden;
+}
+/* line 16, ../../sass/slider/slider.scss */
+div.wrapper-slider button.show {
+  opacity: 1;
+  visibility: visible;
+}
+/* line 24, ../../sass/slider/slider.scss */
+div.wrapper-slider ul.slider {
+  -moz-transition: -moz-transform 500ms;
+  -o-transition: -o-transform 500ms;
+  -webkit-transition: -webkit-transform 500ms;
+  transition: transform 500ms;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 500%;
+}
+/* line 33, ../../sass/slider/slider.scss */
+div.wrapper-slider ul.slider li {
+  display: block;
+  float: left;
+  height: 100%;
+  list-style-type: none;
+  width: 20%;
+}

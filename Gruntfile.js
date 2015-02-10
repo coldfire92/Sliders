@@ -12,12 +12,26 @@ module.exports = function(grunt) {
 			        environment: 'development'
 			      }
 			    }
+	       },
+	       watch: {
+	       		options : {
+	       	    		livereload : true
+	       	    },
+	       		compass : {
+	       			files: ['sass/**/*.scss'],
+	       			tasks : ['compass']
+	       		},
+
+	       	    livereload : {
+	       	    	files : ['scripts/**/*.js','*.html'],
+	       	    }
 	       }
 
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-compass');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	grunt.registerTask('default', ['compass']);
+	grunt.registerTask('default', ['watch']);
 	
 };

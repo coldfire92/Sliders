@@ -1,0 +1,47 @@
+@import 'compass';
+@import 'config';
+
+div.wrapper-slider {
+
+	overflow: hidden;
+	position: relative;
+
+	button {
+		
+		opacity: 0;
+		@include transition(visibility 1800ms);
+		visibility: hidden;
+		
+		// show buttons
+		&.show {
+			opacity: 1;
+			visibility: visible;
+		}
+
+	}
+		
+	
+	ul.slider {
+		
+		@include transition(transform 500ms);
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 500%;
+
+		li {
+	
+		display: block;
+		float: left;
+		height: 100%;
+		list-style-type: none;
+		width: 20%;
+
+		}
+
+	}	
+
+}
+
+

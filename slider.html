@@ -1,0 +1,135 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Slider</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" type="text/css" href="styles/slider/slider.css">
+
+    </head>
+    <body>  
+
+    <div class="wrapper-slider first">
+
+      <button class="prev">Prev</button>
+        
+        <ul class="slider">
+            <li style="background: red">Pierwszy slajd</li>
+            <li style="background: green">Drugi slajd</li>
+            <li style="background: blue">Trzeci slajd</li>
+            <li style="background: yellow">Czwarty slajd</li>
+            <li style="background: grey">Piąty Slajd</li>
+        </ul>
+
+      <button class="next">Next</button>
+
+    </div>
+
+
+    <div class="wrapper-slider second">
+        
+        <button class="prev">Prev</button>
+
+        <ul class="slider">
+            <li style="background: red"></li>
+            <li style="background: green"></li>
+            <li style="background: blue"></li>
+            <li style="background: yellow"></li>
+            <li style="background: grey"></li>
+            <li style="background: red"></li>
+            <li style="background: green"></li>
+            <li style="background: blue"></li>
+            <li style="background: yellow"></li>
+            <li style="background: grey"></li>
+        </ul>
+
+        <button class="next">Next</button>
+
+    </div>
+
+
+    <script src="bower_components/rsvp/rsvp.js"></script>  
+    <script src="bower_components/requirejs/require.js"></script>   
+
+	<!-- Debbuger -->
+        
+    <script src="bower_components/mp-debugger/dist/debugger.js"></script>         	
+	<script src="scripts/Slider/deb.Slider.js"></script>		
+	
+	<!-- Dependencies -->
+    
+    <script src="bower_components/mp-js-utils/app/scripts/Hooks.js"></script>
+    
+    <!-- Slider -->
+    <script src="scripts/Slider/Slider.js"></script>     
+
+    
+
+    <script>
+
+    require(['Slider'], function(Slider){
+
+        'use strict';
+
+        var slider = new Slider({
+            
+            //selectors
+            Selectors : {
+
+                slider : '.first .slider',
+                prev : '.first .prev',
+                next : '.first .next'
+
+            },
+
+            UI : {
+
+                hidePrevBut: function(){},
+                showPrevBut : function(){},
+
+                hideNextBut: function(){},
+                showNextBut : function(){},
+
+            },
+
+            Events : {
+
+                // or function or object with autoexec parametr (default false)
+
+                before : {
+                    ev : function(currentSlide, nextSlide, sliderNr){
+
+                        console.log(currentSlide);
+                        console.log(nextSlide);
+                        console.log(sliderNr);
+
+                    },
+                    autoExec : false // exec on init with first and second slide
+                },
+                after : {
+                    ev : function(currentSlide, nextSlide, sliderNr){
+
+                        console.log(currentSlide);
+                        console.log(nextSlide);
+                        console.log(sliderNr);
+
+                    },
+                    autoExec : false // exec on init with first and second slide
+                }
+
+            },
+
+            vertical : false,
+            transitionDelay : 500,
+
+        });
+
+    });
+
+    </script>          
+
+</body>
+</html>

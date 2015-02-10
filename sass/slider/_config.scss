@@ -1,0 +1,59 @@
+
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body,
+html {
+	height: 100%;
+	width: 100%;
+}
+
+
+.first.wrapper-slider {
+
+	height: 400px;
+	margin: 70px auto;	
+	position: relative;
+	width: 600px;
+
+}
+
+.second.wrapper-slider {
+
+	height: 400px;
+	margin: 70px auto;	
+	position: relative;
+	width: 400px;
+
+}
+
+button {
+
+	@include translate(0, -50%);
+	height: 40px;
+	position: absolute;
+	top: 50%;	
+	width: 40px;
+	z-index: 20;
+
+	&.prev {
+		
+		left: 20px;
+
+	}
+
+	&.next {
+		
+		right: 20px;
+
+	}
+
+}
+
+
+
+
+
+
