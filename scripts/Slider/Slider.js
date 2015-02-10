@@ -342,6 +342,15 @@ define('Slider',['Hooks'], function (Hooks) {
 
 		}
 
+		/* AnimationTime
+		   ========================================================================== */
+		
+		if(typeof config.animationTime !== 'undefined') {
+
+			this.options.animationTime = parseInt(config.animationTime);
+
+		}
+
 		return isOk;
 
 	};

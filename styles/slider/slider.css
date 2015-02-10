@@ -69,10 +69,10 @@ div.wrapper-slider button.show {
 }
 /* line 24, ../../sass/slider/slider.scss */
 div.wrapper-slider ul.slider {
-  -moz-transition: -moz-transform 500ms;
-  -o-transition: -o-transform 500ms;
-  -webkit-transition: -webkit-transform 500ms;
-  transition: transform 500ms;
+  -moz-transition: -moz-transform 1800ms;
+  -o-transition: -o-transform 1800ms;
+  -webkit-transition: -webkit-transform 1800ms;
+  transition: transform 1800ms;
   height: 100%;
   left: 0;
   position: absolute;

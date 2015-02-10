@@ -23,7 +23,7 @@ div.wrapper-slider {
 	
 	ul.slider {
 		
-		@include transition(transform 500ms);
+		@include transition(transform 1800ms);
 		height: 100%;
 		left: 0;
 		position: absolute;
