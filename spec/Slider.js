@@ -41,7 +41,7 @@
     describe('should show that bad selectors', function() {
         
 
-        it("not add at all", function() {
+        it('not add at all', function() {
           
             SliderInst = new SliderObj({});
 
@@ -49,7 +49,7 @@
 
         });
 
-        it("not add slider", function() {
+        it('not add slider', function() {
           
             SliderInst = new SliderObj({
 
@@ -66,7 +66,7 @@
 
          });
 
-        it("not add prev button", function() {
+        it('not add prev button', function() {
           
             SliderInst = new SliderObj({
 
@@ -83,7 +83,7 @@
 
          });
 
-         it("not add next button", function() {
+         it('not add next button', function() {
           
             SliderInst = new SliderObj({
 
@@ -104,7 +104,7 @@
             ========================================================================== */
          
 
-        it("not strings (slider)", function() {
+        it('not strings (slider)', function() {
           
             SliderInst = new SliderObj({
 
@@ -122,7 +122,7 @@
 
         });
 
-        it("not strings (next)", function() {
+        it('not strings (next)', function() {
           
             SliderInst = new SliderObj({
 
@@ -141,7 +141,7 @@
         });
 
 
-        it("not strings (prev)", function() {
+        it('not strings (prev)', function() {
           
             SliderInst = new SliderObj({
 
@@ -163,7 +163,7 @@
         /* DOM check
            ========================================================================== */
 
-        it("not exisiting object in DOM for selector (slider)", function() {
+        it('not exisiting object in DOM for selector (slider)', function() {
           
             SliderInst = new SliderObj({
 
@@ -181,7 +181,7 @@
 
         });
 
-         it("not exisiting object in DOM for selector (prev)", function() {
+         it('not exisiting object in DOM for selector (prev)', function() {
           
             SliderInst = new SliderObj({
 
@@ -199,7 +199,7 @@
 
         });
 
-        it("not exisiting object in DOM for selector (next)", function() {
+        it('not exisiting object in DOM for selector (next)', function() {
           
             SliderInst = new SliderObj({
 
@@ -218,11 +218,7 @@
         });
 
 
-
-        
-
     }); 
-
 
 
 });
@@ -230,8 +226,4 @@
     
 })();
         
-
-
-
-
  

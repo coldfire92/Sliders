@@ -351,6 +351,7 @@ define('Slider',['Hooks'], function (Hooks) {
 
 		}
 
+
 		return isOk;
 
 	};
@@ -362,7 +363,7 @@ define('Slider',['Hooks'], function (Hooks) {
 	 */
 	var init = function(config){
 		
-		if (setConfig.call(this, config)) {return;}
+		if (!setConfig.call(this, config)) {return;}
 
 		// init vars
 		this.vars.childrenNodes = this.options.DOM.slider.children;

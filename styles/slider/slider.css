@@ -67,7 +67,7 @@ div.wrapper-slider button.show {
   opacity: 1;
   visibility: visible;
 }
-/* line 24, ../../sass/slider/slider.scss */
+/* line 23, ../../sass/slider/slider.scss */
 div.wrapper-slider ul.slider {
   -moz-transition: -moz-transform 1800ms;
   -o-transition: -o-transform 1800ms;
@@ -79,7 +79,7 @@ div.wrapper-slider ul.slider {
   top: 0;
   width: 500%;
 }
-/* line 33, ../../sass/slider/slider.scss */
+/* line 32, ../../sass/slider/slider.scss */
 div.wrapper-slider ul.slider li {
   display: block;
   float: left;
