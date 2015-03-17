@@ -15,7 +15,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 	scroller.prototype = (function(){
 
-			
+
 		/* Integrate in dom
 		   ========================================================================== */
 		
@@ -62,19 +62,10 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 				setTimeout(function(){
 
 					ok();
-				
-					this.config.isAnimationOnScroll = false;
-				
-				}.bind(this), timeScroll + this.config.waitAfterScroll);
-
-				// if moved by keys, or scrollTo functions
-
-				setTimeout(function(){
 
 					this.config.isAnimation = false;
-
-				}.bind(this), timeScroll);
-
+				
+				}.bind(this), timeScroll + this.config.waitAfterScroll);
 
 			}.bind(this));
 
@@ -127,7 +118,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 		 */
 		var scroll = function(nextSectionName, direction){
 
-			if(nextSectionName === false || !this.config.enable) {return;} // first or last section or dont active
+			if(	this.config.isAnimation || nextSectionName === false || !this.config.enable) {return;} // first or last section or dont active
 
 			var scrollTo;
 
@@ -153,7 +144,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 			}
 
 			this.config.isAnimation = true;
-			this.config.isAnimationOnScroll = true;
+
 
 			/* Call events
 			   ========================================================================== */
@@ -240,7 +231,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 			var delta = event.wheelDelta || -event.detail;
 			
-			if(this.config.isAnimationOnScroll) {
+			if(this.config.isAnimation) {
 				return;
 		    }
 
@@ -439,6 +430,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 				this.config.enable = true;
 
+			
 			},
 			disable: function(){
 
