@@ -78,6 +78,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 		 		document.body.classList.add(nextSection);
 		 		document.body.classList.remove(currSection);
+		 		document.body.classList.remove('before-'+currSection);
 
 		 };
 
@@ -118,7 +119,6 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 				return nextSectionBeforeElement + '_to_' + nextSectionName;
 
 			}
-
 
 			return '';
 
@@ -200,6 +200,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 			var scrollTo;
 
 			var time = this.config.scrollTime;
+			var timeAllScrollTo = 0; // time not div when scrollTo
 			var currrentIndex = this.config.sections.get(this.config.currentSectionName);
 			var nextItemIndex = this.config.sections.get(nextSectionName);
 
@@ -220,11 +221,11 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 				}
 
-				time = howMuch * (this.config.scrollTime);
+				timeAllScrollTo = howMuch * (this.config.scrollTime);
 
 				if(howMuch > 1) {
 
-					time /= 2;
+					time = timeAllScrollTo / 2;
 				
 				}
 
@@ -243,11 +244,29 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 			// cal after method after scroll
 
+
+			if(scrollTo) {
+
+				// simulate scroll, add class to before scroll on section before destination
+
+				setTimeout(function(){
+
+					addClass.call(this, this.config.currentSectionName, 'before-'+nextSectionName);
+
+				}.bind(this), time - this.config.scrollTime / 2 );
+
+
+			} else {
+
+				addClass.call(this, this.config.currentSectionName, 'before-'+nextSectionName);
+	
+			}
+
 			setTimeout(function(){
 
 				getCallbacksForSection.call(this, nextSectionName, scrollTo, 'after', direction).after();
 
-				addClass.call(this, this.config.currentSectionName, nextSectionName);
+				addClass.call(this, this.config.currentSectionName , nextSectionName);
 
 			}.bind(this), time);
 
