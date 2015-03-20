@@ -125,6 +125,49 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 		 };
 
 
+		/* Get record
+		   ========================================================================== */
+		 
+
+		 var getRecordNameWhenScrollTo = function(nextSectionName, action, direction){
+
+
+		 	var afterElement = this.config.sections.getKeyAfter(this.config.currentSectionName);
+			var beforeElement = this.config.sections.getKeyBefore(this.config.currentSectionName);
+
+			var nextSectionBeforeElement = this.config.sections.getKeyBefore(nextSectionName);
+			var nextSectionAfterElement = this.config.sections.getKeyAfter(nextSectionName);
+
+			if(action === 'before' && direction === 'up'){
+
+				return this.config.currentSectionName + '_to_' + beforeElement;
+
+			}
+
+			if(action === 'before' && direction === 'down'){
+
+				return this.config.currentSectionName + '_to_' + afterElement;
+
+			}
+
+			if(action === 'after' && direction === 'up') {
+
+				return nextSectionAfterElement + '_to_' + nextSectionName;
+
+			}
+
+			if(action === 'after' && direction === 'down') {
+
+				return nextSectionBeforeElement + '_to_' + nextSectionName;
+
+			}
+
+
+			return '';
+
+		 };
+
+
 		/* Callbacks
 		   ========================================================================== */
 		
