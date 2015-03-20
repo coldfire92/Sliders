@@ -82,6 +82,49 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 		 };
 
 
+		/* Get record
+		   ========================================================================== */
+		 
+
+		 var getRecordNameWhenScrollTo = function(nextSectionName, action, direction){
+
+
+		 	var afterElement = this.config.sections.getKeyAfter(this.config.currentSectionName);
+			var beforeElement = this.config.sections.getKeyBefore(this.config.currentSectionName);
+
+			var nextSectionBeforeElement = this.config.sections.getKeyBefore(nextSectionName);
+			var nextSectionAfterElement = this.config.sections.getKeyAfter(nextSectionName);
+
+			if(action === 'before' && direction === 'up'){
+
+				return this.config.currentSectionName + '_to_' + beforeElement;
+
+			}
+
+			if(action === 'before' && direction === 'down'){
+
+				return this.config.currentSectionName + '_to_' + afterElement;
+
+			}
+
+			if(action === 'after' && direction === 'up') {
+
+				return nextSectionAfterElement + '_to_' + nextSectionName;
+
+			}
+
+			if(action === 'after' && direction === 'down') {
+
+				return nextSectionBeforeElement + '_to_' + nextSectionName;
+
+			}
+
+
+			return '';
+
+		 };
+
+
 		/* Callbacks
 		   ========================================================================== */
 		
@@ -95,39 +138,21 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 		var getCallbacksForSection = function(nextSectionName, scrollTo, action, direction){
 
 
-			var element,
-			    beforeElement,
-			    afterElement;
-
-			
+			var element;
+			  
 			/* Get correct record
 			========================================================================== */
 			
 			element = '';
 
-			if (scrollTo && action === 'before') {
+	
+			if(scrollTo) {
 
-				afterElement = this.config.sections.getKeyAfter(this.config.currentSectionName);
-
-				if(afterElement) {
-
-					element = this.config.currentSectionName + '_to_' + afterElement;
-
-				}
-
-			} else if (scrollTo && action === 'after'){
-
-				beforeElement = this.config.sections.getKeyBefore(nextSectionName);
-
-				if(beforeElement) {
-
-					element = beforeElement + '_to_' + nextSectionName;
-		        
-		        }		
+					element = getRecordNameWhenScrollTo.call(this, nextSectionName, action, direction);
 
 			} else {
 
-				element = this.config.currentSectionName +'_to_'+ nextSectionName;
+					element = this.config.currentSectionName +'_to_'+ nextSectionName;
 
 			}
 
@@ -187,7 +212,11 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 				if(nextItemIndex - currrentIndex < 0) {
 
+					direction = 'up';
 
+				} else {
+
+					direction = 'down';
 
 				}
 
