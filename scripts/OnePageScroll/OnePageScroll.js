@@ -83,17 +83,57 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 		 */
 		var getCallbacksForSection = function(nextSectionName, scrollTo, action){
 
-			var element,
-			    beforeElement;
 
-			element = this.config.currentSectionName+'_to_'+nextSectionName;
-		
+			var element='',
+			    beforeElement,
+			    afterElement;
+
+			
+			/* Get correct record
+			========================================================================== */
+
+
+			if (scrollTo && action === 'before') {
+
+				afterElement = this.config.sections.getKeyAfter(this.config.currentSectionName);
+
+				if(afterElement) {
+
+					element = this.config.currentSectionName + '_to_' + afterElement;
+
+				}
+
+			} else if (scrollTo && action === 'after'){
+
+				beforeElement = this.config.sections.getKeyBefore(nextSectionName);
+
+				if(beforeElement) {
+
+					element = beforeElement + '_to_' + nextSectionName;
+		        
+		        }		
+
+			} else {
+
+				element = this.config.currentSectionName +'_to_'+ nextSectionName;
+
+			}
+
+
+			/* Test
+			   ========================================================================== */
+						
+
 			if(typeof this.config.sectionsEvents[element] !== 'undefined'){
 
 					DEBUGGER.run('info', 'Call ' + element + ':' + action,'onePageScroll');
 
 					return this.config.sectionsEvents[element];
 					
+			} else {
+
+				DEBUGGER.run('info', 'Try to call' + element);
+
 			}
 				
 			// not defined, return empty
@@ -156,7 +196,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 			setTimeout(function(){
 
-				getCallbacksForSection.call(this, nextSectionName, scrollTo,'after').after();
+				getCallbacksForSection.call(this, nextSectionName, scrollTo, 'after').after();
 
 			}.bind(this), time);
 
