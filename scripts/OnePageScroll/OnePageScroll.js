@@ -55,13 +55,23 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 			var timeScroll = time || this.config.scrollTime;
 
+			
 			this.config.mainWrapper.setAttribute('style', getStyles.call(this, offset, timeScroll));
+
 
 			return new RSVP.Promise(function(ok){
 
 				setTimeout(function(){
 
 					ok();
+
+					// remove style tranform
+
+					if (offset === '0%') {
+
+						this.config.mainWrapper.setAttribute('style', '');
+	
+					}
 
 					this.config.isAnimation = false;
 				
@@ -79,6 +89,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 		 		document.body.classList.add(nextSection);
 		 		document.body.classList.remove(currSection);
 		 		document.body.classList.remove('before-'+currSection);
+		 		document.body.classList.remove('start-'+currSection);
 
 		 };
 
@@ -284,6 +295,8 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 			
 			// call before event
 			getCallbacksForSection.call(this, nextSectionName, scrollTo, 'before', direction).before();
+
+			addClass.call(this, this.config.currentSectionName, 'start-'+nextSectionName);
 
 			// cal after method after scroll
 
