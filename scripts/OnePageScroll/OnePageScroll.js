@@ -252,6 +252,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 			if(	this.config.isAnimation || nextSectionName === false || !this.config.enable) {return;} // first or last section or dont active
 
 			var scrollTo;
+			var accelerate = 1;
 
 			var time = this.config.scrollTime;
 			var timeAllScrollTo = 0; // time not div when scrollTo
@@ -279,7 +280,9 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 				if(howMuch > 1) {
 
-					time = timeAllScrollTo / 2;
+					accelerate = (howMuch <= 3) ? 2 : 3; // how much accelerate scroll
+
+					time = timeAllScrollTo / accelerate;
 				
 				}
 
@@ -309,7 +312,7 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 
 					addClass.call(this, this.config.currentSectionName, 'before-'+nextSectionName);
 
-				}.bind(this), time - this.config.scrollTime / 2 );
+				}.bind(this), time - (this.config.scrollTime / 2) );
 
 
 			} else {
