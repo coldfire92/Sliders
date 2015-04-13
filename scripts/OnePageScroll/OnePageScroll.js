@@ -395,14 +395,14 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 		 * @param  {int} direction int
 		 */
 		var onScroll = function(event){
-
-			event.preventDefault();
-
-			var delta = event.wheelDelta || -event.detail;
 			
-			if(this.config.isAnimation) {
+			if(this.config.isAnimation || !this.config.enable ) {
 				return;
 		    }
+
+		    var delta = event.wheelDelta || -event.detail;
+
+		    event.preventDefault();
 
 			if(delta < 0){
 
@@ -415,20 +415,14 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 			
 		};
 
-		/**
-		 * Add events
-		 */
-		var addEvents = function(){
 
-		    window.addEventListener('mousewheel', onScroll.bind(this), false);
-	        window.addEventListener('DOMMouseScroll', onScroll.bind(this), false);
-	        window.addEventListener('MozMousePixelScroll', onScroll.bind(this), false);	
+		var keyEvents = function(e){
 
-			document.addEventListener('keydown', function(e) {
-
-	      	  var tag = e.target.tagName.toLowerCase();
+	
+			var tag = e.target.tagName.toLowerCase();
 
 	          switch(e.which) {
+	            
 	            case 38:
 	              if (tag !== 'input' && tag !== 'textarea') {moveUp.call(this);}
 	           	  break;
@@ -459,9 +453,23 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 	              break;
 
 	            default: return;
-	          }
+	         
+	         }
 
-	        }.bind(this));
+		};
+
+		/**
+		 * Add events
+		 */
+		var addEvents = function(){
+
+			DEBUGGER.run('info', 'Add events', 'OnePageScroll');
+
+		    window.addEventListener('mousewheel', onScroll.bind(this), false);
+	        window.addEventListener('DOMMouseScroll', onScroll.bind(this), false);
+	        window.addEventListener('MozMousePixelScroll', onScroll.bind(this), false);	
+
+			document.addEventListener('keydown', keyEvents.bind(this));
 
 		};
 
