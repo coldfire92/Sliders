@@ -603,12 +603,13 @@ define('OnePageScroll',['DynamicObject', 'DisableScroll'], function(DynamicObjec
 			enable: function(){
 
 				this.config.enable = true;
-
+				DisableScroll.disable(); 
 			
 			},
 			disable: function(){
 
 				this.config.enable = false;
+				DisableScroll.enable(); 
 
 			}
 
