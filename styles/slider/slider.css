@@ -28,6 +28,14 @@ html {
 }
 
 /* line 32, ../../sass/slider/_config.scss */
+.third.wrapper-slider {
+  height: 400px;
+  margin: 70px auto;
+  position: relative;
+  width: 400px;
+}
+
+/* line 41, ../../sass/slider/_config.scss */
 button {
   -moz-transform: translate(0, -50%);
   -ms-transform: translate(0, -50%);
@@ -39,11 +47,11 @@ button {
   width: 40px;
   z-index: 20;
 }
-/* line 41, ../../sass/slider/_config.scss */
+/* line 50, ../../sass/slider/_config.scss */
 button.prev {
   left: 20px;
 }
-/* line 47, ../../sass/slider/_config.scss */
+/* line 56, ../../sass/slider/_config.scss */
 button.next {
   right: 20px;
 }
@@ -69,21 +77,51 @@ div.wrapper-slider button.show {
 }
 /* line 23, ../../sass/slider/slider.scss */
 div.wrapper-slider ul.slider {
-  -moz-transition: -moz-transform 1800ms;
-  -o-transition: -o-transform 1800ms;
-  -webkit-transition: -webkit-transform 1800ms;
-  transition: transform 1800ms;
   height: 100%;
   left: 0;
   position: absolute;
   top: 0;
-  width: 500%;
+  /* Scroll Animations
+     ========================================================================== */
+  /* Fade Animation
+     ========================================================================== */
 }
-/* line 32, ../../sass/slider/slider.scss */
+/* line 31, ../../sass/slider/slider.scss */
 div.wrapper-slider ul.slider li {
   display: block;
-  float: left;
   height: 100%;
   list-style-type: none;
-  width: 20%;
+}
+/* line 42, ../../sass/slider/slider.scss */
+div.wrapper-slider ul.slider.scroll-animation {
+  -moz-transition: -moz-transform 1800ms;
+  -o-transition: -o-transform 1800ms;
+  -webkit-transition: -webkit-transform 1800ms;
+  transition: transform 1800ms;
+}
+/* line 46, ../../sass/slider/slider.scss */
+div.wrapper-slider ul.slider.scroll-animation li {
+  float: left;
+}
+/* line 57, ../../sass/slider/slider.scss */
+div.wrapper-slider ul.slider.fade-animation {
+  width: 100%;
+}
+/* line 61, ../../sass/slider/slider.scss */
+div.wrapper-slider ul.slider.fade-animation li {
+  -moz-transition: opacity 1800ms, visibility 1800ms;
+  -o-transition: opacity 1800ms, visibility 1800ms;
+  -webkit-transition: opacity 1800ms, visibility 1800ms;
+  transition: opacity 1800ms, visibility 1800ms;
+  visibility: hidden;
+  opacity: 0;
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: absolute;
+}
+/* line 71, ../../sass/slider/slider.scss */
+div.wrapper-slider ul.slider.fade-animation li.show {
+  visibility: visible;
+  opacity: 1;
 }

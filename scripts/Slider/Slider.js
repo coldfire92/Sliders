@@ -77,35 +77,89 @@ define('Slider',['Hooks'], function (Hooks) {
 
             vertical : false,
             animationTime : 500,
+            fadeEffect : false
 
     };   
 
+    /* ==========================================================================
+       ANIMATIONS
+       ========================================================================== */
+    
 	/**
 	 * Animate slider container
 	 * @return {Promise} 
 	 */
-	var scroll = function(){
+	var scrollAnimate = function(){
 
-		var self = this;
+		var offset = (this.vars.slideeWidth * (this.vars.curPage -1) ) + '%',  // first page dont need to translate
+			translate = 'translate3d(-' + offset + ',0,0)';
+		 
+	    this.options.DOM.slider.style.webkitTransform = translate;
+		this.options.DOM.slider.style.MozTransform = translate;
+	    this.options.DOM.slider.style.msTransform = translate;
+	    this.options.DOM.slider.style.OTransform = translate;
+	    this.options.DOM.slider.style.transform = translate;
 
 		return new RSVP.Promise(function(ok){
-
-			 var offset = (self.vars.slideeWidth * (self.vars.curPage -1) ) + '%',  // first page dont need to translate
-				 translate = 'translate3d(-' + offset + ',0,0)';
-
-		     self.options.DOM.slider.style.webkitTransform = translate;
-			 self.options.DOM.slider.style.MozTransform = translate;
-		     self.options.DOM.slider.style.msTransform = translate;
-		     self.options.DOM.slider.style.OTransform = translate;
-		     self.options.DOM.slider.style.transform = translate;
 
 			 setTimeout(function(){
 
 			 	ok();
 
-			 },self.options.animationTime);
+			 }, this.options.animationTime);
 
-		});
+		}.bind(this));
+
+	}; 
+
+
+	var fadeAnimate = function(nextAnimation){
+
+
+		var prevElementPrevAnim = this.vars.childrenNodes[this.vars.curPage + 1 - 1],
+			prevElementNextAnim = this.vars.childrenNodes[this.vars.curPage - 1 - 1];
+		
+
+		if(nextAnimation && prevElementNextAnim) {
+
+			prevElementNextAnim.classList.remove('show');
+
+		} else if(prevElementPrevAnim) {
+			
+			prevElementPrevAnim.classList.remove('show');
+
+		}
+
+		this.vars.childrenNodes[this.vars.curPage -1].classList.add('show');
+
+		return new RSVP.Promise(function(ok){
+
+			 setTimeout(function(){
+
+			 	ok();
+
+			 }, this.options.animationTime);
+
+		}.bind(this));
+
+	};
+
+
+
+
+	var callAnimation = function(nextAnimation){
+		
+		this.vars.isAnimation = true;
+
+		if(this.options.fadeEffect) {
+
+			return fadeAnimate.call(this, nextAnimation);
+
+		} else {
+
+			return scrollAnimate.call(this, nextAnimation);
+
+		}
 
 	};
 
@@ -114,7 +168,7 @@ define('Slider',['Hooks'], function (Hooks) {
 	 * Call after scroll
 	 * @return {[type]} [description]
 	 */
-	var afterScroll = function(){
+	var afterAnimation = function(){
 
 		this.vars.isAnimation = false;
 
@@ -154,8 +208,7 @@ define('Slider',['Hooks'], function (Hooks) {
 	 * @param  {boolean} next if true scrollNext, if false scrollPrev
 	 * @return {void}  
 	 */
-	var prepareScroll = function(next) {
-
+	var prepareAnimation = function(next) {
 
 		// check if is last page when nextScroll
 		if((next && this.vars.curPage === this.vars.pages) || this.vars.isAnimation) {
@@ -175,7 +228,7 @@ define('Slider',['Hooks'], function (Hooks) {
 
 		DEBUGGER.run('info', 'Slide to ' + this.vars.curPage + ' / ' +  this.vars.pages, 'Slider');
         
-		return scroll.call(this).then(afterScroll.bind(this));
+		return callAnimation.call(this, next).then(afterAnimation.bind(this));
 
 	};
 
@@ -185,14 +238,14 @@ define('Slider',['Hooks'], function (Hooks) {
 	 */
 	var scrollPrev = function(){
 
-		return prepareScroll.call(this, false);
+		return prepareAnimation.call(this, false);
 		
 	};
 
 
 	var scrollNext = function(){
 
-		return prepareScroll.call(this, true);
+		return prepareAnimation.call(this, true);
 		
 	};
 
@@ -230,7 +283,7 @@ define('Slider',['Hooks'], function (Hooks) {
 	 */
 	var addEvents = function(){
 
-		var self = this;
+	   var self = this;
 
 		// next button
 	   this.options.DOM.next.addEventListener('click', function(e){
@@ -351,10 +404,45 @@ define('Slider',['Hooks'], function (Hooks) {
 
 		}
 
+		/* Fade Effects
+		   ========================================================================== */
+			
+		if(typeof config.fadeEffect !== 'undefined') {
+
+			this.options.fadeEffect = config.fadeEffect;
+
+		}
 
 		return isOk;
 
 	};
+
+
+
+	var initScrollEffect = function(){
+
+		this.options.DOM.slider.classList.add('scroll-animation');
+
+		this.vars.slideeWidth = Math.ceil( 100 / this.vars.pages);
+
+		// set width
+		setSliderContainerWidth.call(this);
+		setSlideeWidth.call(this);
+
+	};
+
+
+
+	var initFadeEffect = function(){
+
+		this.options.DOM.slider.classList.add('fade-animation');
+
+		this.vars.childrenNodes[0].classList.add('show'); // show first slide
+
+	};
+
+
+
 
 	/**
 	 * Init slider
@@ -363,17 +451,25 @@ define('Slider',['Hooks'], function (Hooks) {
 	 */
 	var init = function(config){
 		
-		if (!setConfig.call(this, config)) {return;}
+		if (setConfig.call(this, config)) {
+			return;
+		}
 
 		// init vars
 		this.vars.childrenNodes = this.options.DOM.slider.children;
 		this.vars.pages = this.options.DOM.slider.children.length;
-		this.vars.id = 'Slider-' + Math.random().toString(36).substr(2, 3);
-		this.vars.slideeWidth = Math.ceil( 100 / this.vars.pages);
 
-		// set width
-		setSliderContainerWidth.call(this);
-		setSlideeWidth.call(this);
+		this.vars.id = 'Slider-' + Math.random().toString(36).substr(2, 3);
+
+		if(!this.options.fadeEffect) {
+
+			initScrollEffect.call(this);
+
+		} else {
+
+			initFadeEffect.call(this);
+
+		}
 
 		addEvents.call(this);
 		addHooks.call(this);

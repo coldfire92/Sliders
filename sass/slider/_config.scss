@@ -29,6 +29,15 @@ html {
 
 }
 
+.third.wrapper-slider {
+
+	height: 400px;
+	margin: 70px auto;	
+	position: relative;
+	width: 400px;
+
+}
+
 button {
 
 	@include translate(0, -50%);
@@ -51,9 +60,3 @@ button {
 	}
 
 }
-
-
-
-
-
-
