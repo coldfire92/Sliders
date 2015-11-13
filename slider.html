@@ -54,29 +54,6 @@
 
     </div>
 
-    <!-- THIRD -->
-
-    <div class="wrapper-slider third">
-        
-        <button class="prev">Prev</button>
-
-        <ul class="slider">
-            <li style="background: red"></li>
-            <li style="background: green"></li>
-            <li style="background: blue"></li>
-            <li style="background: yellow"></li>
-            <li style="background: grey"></li>
-            <li style="background: red"></li>
-            <li style="background: green"></li>
-            <li style="background: blue"></li>
-            <li style="background: yellow"></li>
-            <li style="background: grey"></li>
-        </ul>
-
-        <button class="next show">Next</button>
-
-    </div>
-
     <script src="bower_components/rsvp/rsvp.js"></script>  
     <script src="bower_components/requirejs/require.js"></script>   
 
@@ -103,7 +80,7 @@
         /* Slider 1
            ========================================================================== */
         
-        var slider = new Slider({
+        var slider1 = new Slider({
             
             //selectors
             Selectors : {
@@ -157,61 +134,67 @@
 
         });
 
+        
+        // console.log(slider1);
+        
+
         /* Slider 2 (Fade Effects)
            ========================================================================== */
         
-        // var slider2 = new Slider({
+        var slider2 = new Slider({
             
-        //     //selectors
-        //     Selectors : {
+            //selectors
+            Selectors : {
 
-        //         slider : '.second .slider',
-        //         prev : '.second .prev',
-        //         next : '.second .next'
+                slider : '.second .slider',
+                prev : '.second .prev',
+                next : '.second .next'
 
-        //     },
+            },
 
-        //     UI : {
+            UI : {
 
-        //         hidePrevBut: function(){},
-        //         showPrevBut : function(){},
+                hidePrevBut: function(){},
+                showPrevBut : function(){},
 
-        //         hideNextBut: function(){},
-        //         showNextBut : function(){},
+                hideNextBut: function(){},
+                showNextBut : function(){},
 
-        //     },
+            },
 
-        //     Events : {
+            Events : {
 
-        //         // or function or object with autoexec parametr (default false)
+                // or function or object with autoexec parametr (default false)
 
-        //         before : {
-        //             ev : function(currentSlide, nextSlide, sliderNr){
+                before : {
+                    ev : function(currentSlide, nextSlide, sliderNr){
 
-        //                 console.log(currentSlide);
-        //                 console.log(nextSlide);
-        //                 console.log(sliderNr);
+                        console.log(currentSlide);
+                        console.log(nextSlide);
+                        console.log(sliderNr);
 
-        //             },
-        //             autoExec : false // exec on init with first and second slide
-        //         },
-        //         after : {
-        //             ev : function(currentSlide, nextSlide, sliderNr){
+                    },
+                    autoExec : false // exec on init with first and second slide
+                },
+                after : {
+                    ev : function(currentSlide, nextSlide, sliderNr){
 
-        //                 console.log(currentSlide);
-        //                 console.log(nextSlide);
-        //                 console.log(sliderNr);
+                        console.log(currentSlide);
+                        console.log(nextSlide);
+                        console.log(sliderNr);
 
-        //             },
-        //             autoExec : false // exec on init with first and second slide
-        //         }
+                    },
+                    autoExec : false // exec on init with first and second slide
+                }
 
-        //     },
+            },
 
-        //     vertical : false,
-        //     animationTime : 1800,
+            vertical : false,
+            animationTime : 1800,
+            fadeEffect : false
+        });   
 
-        // });   
+        // console.log(slider2);
 
     });
 

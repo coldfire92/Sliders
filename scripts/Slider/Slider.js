@@ -7,80 +7,6 @@
 define('Slider',['Hooks'], function (Hooks) {
 	'use strict';
 
-
-	/**
-	 * vars calc by slider
-	 * @type {Object}
-	 */
-	var defalutVars = {
-
-		isAnimation : false,
-        curPage : 1, // currentPage
-        pages : 0, // count pages
-        childrenNodes : null,
-        slideeWidth : 0,
-        id : 0, // set unique id of slider (use for hooks to multiple instances)
-        hookPrefixer : ''
-	};
-
-	/**
-	 * Default options
-	 * @type {Object}
-	 */
-	var options = { 
-
-			//dom elements
-			DOM : {
-                slider : null,
-                prev : null,
-                next : null
-            },
-
-            Events : {
-
-                before : {
-                    ev : function(currentSlide, nextSlide, sliderNr){},
-                    autoExec : false
-                },
-                after : {
-                    ev : function(currentSlide, nextSlide, sliderNr){},
-                    autoExec : false
-                }
-
-            },
-
-            UI : {
-		
-				 hidePrevBut: function(button){
-
-				 	button.classList.remove('show');
-
-				 },
-		         showPrevBut : function(button){
-		         	
-		         	button.classList.add('show');
-
-		         },
-
-		         hideNextBut: function(button){
-		         	
-		         	button.classList.remove('show');
-
-		         },
-		         showNextBut : function(button){
-
-		         	button.classList.add('show');
-
-		         }
-
-			},
-
-            vertical : false,
-            animationTime : 500,
-            fadeEffect : false
-
-    };   
-
     /* ==========================================================================
        ANIMATIONS
        ========================================================================== */
@@ -451,6 +377,8 @@ define('Slider',['Hooks'], function (Hooks) {
 	 */
 	var init = function(config){
 		
+		console.log(this);
+		
 		if (setConfig.call(this, config)) {
 			return;
 		}
@@ -482,9 +410,7 @@ define('Slider',['Hooks'], function (Hooks) {
 		//auto exec before function
 		
 		if(this.options.Events.before.autoExec) {
-
 			callBeforeEvent.call(this);
-
 		}	
 
 		if(this.options.Events.after.autoExec) {
@@ -500,17 +426,75 @@ define('Slider',['Hooks'], function (Hooks) {
 	   Public methods
 	   ========================================================================== */
 	
+	var slider = function(config){
 
-	var slider = function(config){this.init(config);};
+		this.vars = {
+			isAnimation : false,
+	        curPage : 1, // currentPage
+	        pages : 0, // count pages
+	        childrenNodes : null,
+	        slideeWidth : 0,
+	        id : 0, // set unique id of slider (use for hooks to multiple instances)
+	        hookPrefixer : ''
+		};
+
+		this.options = { 
+
+			//dom elements
+			DOM : {
+                slider : null,
+                prev : null,
+                next : null
+            },
+
+            Events : {
+
+                before : {
+                    ev : function(currentSlide, nextSlide, sliderNr){},
+                    autoExec : false
+                },
+                after : {
+                    ev : function(currentSlide, nextSlide, sliderNr){},
+                    autoExec : false
+                }
+
+            },
+
+            UI : {
+		
+				 hidePrevBut: function(button){
+
+				 	button.classList.remove('show');
+
+				 },
+		         showPrevBut : function(button){
+		         	
+		         	button.classList.add('show');
+
+		         },
+
+		         hideNextBut: function(button){     	
+		         	button.classList.remove('show');
+		         },
+		         showNextBut : function(button){
+		         	button.classList.add('show');
+		         }
+
+			},
+
+            vertical : false,
+            animationTime : 500,
+            fadeEffect : false
+
+   		 };   
+
+		this.init(config);
+	};
 
 	slider.prototype = {
-		
-		vars : defalutVars,
-		options : options,
 		init : init,
 		scrollNext : scrollNext.bind(this),
 		scrollPrev : scrollPrev.bind(this),
-		
 	};
 
 	return slider;
