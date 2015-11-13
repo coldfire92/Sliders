@@ -41,7 +41,6 @@ define('Slider',['Hooks'], function (Hooks) {
 
 	var fadeAnimate = function(nextAnimation){
 
-
 		var prevElementPrevAnim = this.vars.childrenNodes[this.vars.curPage + 1 - 1],
 			prevElementNextAnim = this.vars.childrenNodes[this.vars.curPage - 1 - 1];
 		
@@ -163,16 +162,26 @@ define('Slider',['Hooks'], function (Hooks) {
 	 * @return {[type]} [description]
 	 */
 	var scrollPrev = function(){
-
 		return prepareAnimation.call(this, false);
-		
 	};
 
 
 	var scrollNext = function(){
-
 		return prepareAnimation.call(this, true);
-		
+	};
+
+	var slideTo = function(index){
+
+		if(index > this.vars.pages || index <= 0){
+			DEBUGGER.run('info', 'Cant slide (not such slide) to ' + index, 'Slider');
+			return;
+		}
+
+		this.vars.curPage = index;
+		callBeforeEvent.call(this);
+		DEBUGGER.run('info', 'Slide to ' + this.vars.curPage + ' / ' +  this.vars.pages, 'Slider');
+		return callAnimation.call(this, true).then(afterAnimation.bind(this));
+
 	};
 
 	/* Events
@@ -287,7 +296,6 @@ define('Slider',['Hooks'], function (Hooks) {
 		if(DEBUGGER.run('sliderCheckSelectors', {
 			config : config
 		},'Slider')) {
-
 			this.options.DOM = {
 
 				slider : document.querySelector(config.Selectors.slider),
@@ -295,18 +303,14 @@ define('Slider',['Hooks'], function (Hooks) {
                 next : document.querySelector(config.Selectors.next)
 
 			};
-
 		} else {
-
 			isOk = false;
-		
 		}
 
 		/* Events
 		   ========================================================================== */
 		
 		if (typeof config.Events !== 'undefined' ) {
-			
 			if(DEBUGGER.run('sliderCheckEvents', {
 				config : config
 			},'Slider')) {
@@ -318,7 +322,6 @@ define('Slider',['Hooks'], function (Hooks) {
 				isOk = false;
 
 			}	
-
 		}
 
 		/* AnimationTime
@@ -448,7 +451,6 @@ define('Slider',['Hooks'], function (Hooks) {
             },
 
             Events : {
-
                 before : {
                     ev : function(currentSlide, nextSlide, sliderNr){},
                     autoExec : false
@@ -457,20 +459,14 @@ define('Slider',['Hooks'], function (Hooks) {
                     ev : function(currentSlide, nextSlide, sliderNr){},
                     autoExec : false
                 }
-
             },
 
             UI : {
-		
 				 hidePrevBut: function(button){
-
 				 	button.classList.remove('show');
-
 				 },
 		         showPrevBut : function(button){
-		         	
 		         	button.classList.add('show');
-
 		         },
 
 		         hideNextBut: function(button){     	
@@ -479,7 +475,6 @@ define('Slider',['Hooks'], function (Hooks) {
 		         showNextBut : function(button){
 		         	button.classList.add('show');
 		         }
-
 			},
 
             vertical : false,
@@ -493,8 +488,9 @@ define('Slider',['Hooks'], function (Hooks) {
 
 	slider.prototype = {
 		init : init,
-		scrollNext : scrollNext.bind(this),
-		scrollPrev : scrollPrev.bind(this),
+		scrollNext : scrollNext,
+		scrollPrev : scrollPrev,
+		slideTo : slideTo
 	};
 
 	return slider;

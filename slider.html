@@ -30,7 +30,6 @@
 
     </div>
 
-
     <!-- SECOND -->
 
     <div class="wrapper-slider second">
@@ -145,27 +144,21 @@
             
             //selectors
             Selectors : {
-
                 slider : '.second .slider',
                 prev : '.second .prev',
                 next : '.second .next'
-
             },
 
             UI : {
-
                 hidePrevBut: function(){},
                 showPrevBut : function(){},
 
                 hideNextBut: function(){},
                 showNextBut : function(){},
-
             },
 
             Events : {
-
                 // or function or object with autoexec parametr (default false)
-
                 before : {
                     ev : function(currentSlide, nextSlide, sliderNr){
 
@@ -186,7 +179,6 @@
                     },
                     autoExec : false // exec on init with first and second slide
                 }
-
             },
 
             vertical : false,
@@ -195,6 +187,11 @@
         });   
 
         // console.log(slider2);
+
+        setTimeout(function(){
+            slider1.slideTo(3);
+            slider2.slideTo(5);
+        }, 1000);
 
     });
 
