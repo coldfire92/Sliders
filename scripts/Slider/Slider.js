@@ -38,54 +38,35 @@ define('Slider',['Hooks'], function (Hooks) {
 
 	}; 
 
+	var removeClassForNodes = function(nodes){
+		[].forEach.call(nodes, function(node){
+			node.classList.remove('show');
+		});
+	};
 
 	var fadeAnimate = function(nextAnimation){
 
 		var prevElementPrevAnim = this.vars.childrenNodes[this.vars.curPage + 1 - 1],
 			prevElementNextAnim = this.vars.childrenNodes[this.vars.curPage - 1 - 1];
 		
-
-		if(nextAnimation && prevElementNextAnim) {
-
-			prevElementNextAnim.classList.remove('show');
-
-		} else if(prevElementPrevAnim) {
-			
-			prevElementPrevAnim.classList.remove('show');
-
-		}
-
+		removeClassForNodes(this.vars.childrenNodes);
 		this.vars.childrenNodes[this.vars.curPage -1].classList.add('show');
 
 		return new RSVP.Promise(function(ok){
-
 			 setTimeout(function(){
-
 			 	ok();
-
 			 }, this.options.animationTime);
-
 		}.bind(this));
 
 	};
 
-
-
-
 	var callAnimation = function(nextAnimation){
-		
 		this.vars.isAnimation = true;
-
 		if(this.options.fadeEffect) {
-
 			return fadeAnimate.call(this, nextAnimation);
-
 		} else {
-
 			return scrollAnimate.call(this, nextAnimation);
-
 		}
-
 	};
 
 
