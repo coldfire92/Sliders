@@ -1,84 +1,59 @@
-@import 'compass';
-
 div.wrapper-slider {
+    overflow: hidden;
+    position: relative;
 
-	overflow: hidden;
-	position: relative;
+    button {
+        opacity: 0;
+        transition: visibility 1800m;
+        visibility: hidden;
+        // show buttons
+        &.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
 
-	button {
-		
-		opacity: 0;
-		@include transition(visibility 1800ms);
-		visibility: hidden;
-		
-		// show buttons
-		&.show {
-			opacity: 1;
-			visibility: visible;
-		}
+    ul.slider {
+        width: 100%;
+        height: 100%;
+        left: 0;
+        position: absolute;
+        top: 0;
 
-	}
-			
-	ul.slider {
-		width: 100%;
-		height: 100%;
-		left: 0;
-		position: absolute;
-		top: 0;
+        li {
+            display: block;
+            height: 100%;
+            width: 100%;
+            list-style-type: none;
+        }
 
-		li {
-			
-			display: block;
-			height: 100%;
-			width: 100%;
-			list-style-type: none;
-			
-		}
+        /* Scroll Animations
+           ========================================================================== */
+        &.scroll-animation {
+            transition: transform 1800ms;
+            li {
+                float: left;
+            }
+        }
 
-		/* Scroll Animations
-		   ========================================================================== */
-
-		&.scroll-animation {
-		
-			@include transition(transform 1800ms);
-			
-			li {
-				
-				float: left;
-
-			}
-
-		}
-
-		/* Fade Animation
-		   ========================================================================== */
-		
-		&.fade-animation {
-		
-			width: 100%;
-				
-			li {
-		
-				@include transition(opacity 1800ms, visibility 1800ms);
-				visibility: hidden;
-				opacity: 0;
-				width: 100%;
-				left: 0;
-				top: 0;
-				position: absolute;
-			
-				&.show {
-					
-					visibility: visible;
-					opacity: 1;
-
-				}
-
-			}
-
-		}
-
-	}	
-
+        /* Fade Animation
+           ========================================================================== */
+        
+        &.fade-animation {
+            width: 100%;
+            li {
+                transition: opacity 1800ms, visibility 1800ms;
+                visibility: hidden;
+                opacity: 0;
+                width: 100%;
+                left: 0;
+                top: 0;
+                position: absolute;
+                &.show {
+                    visibility: visible;
+                    opacity: 1;
+                }
+            }
+        }
+    }
 }
-

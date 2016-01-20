@@ -1,175 +1,45 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Sliders</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <link rel="stylesheet" type="text/css" href="styles/onePageScroll.css">
-
+        <title>Jasmine Spec Runner</title>
+        <link rel="stylesheet" href="bower_components/jasmine/lib/jasmine-core/jasmine.css">
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-              
-        <div id="scroll-wrapper">
-                        
-            <section data-name="first" style="background: green;">
-                
-                First
-                <button class="first">First</button>
-                <button class="second">Second</button>
-                <button class="third">Third</button>
 
-                <button class="five">Five</button>
 
-            </section>
-            
-            <section data-name="second" style="background: blue;">
-                Second
-                <button class="first">First</button>
-                <button class="second">Second</button>
-                <button class="third">Third</button>
+	<div style="display: none" class="wrapper-slider second">
+        <button class="prev">Prev</button>
+        <ul class="slider">
+            <li style="background: red"></li>
+            <li style="background: green"></li>
+            <li style="background: blue"></li>
+            <li style="background: yellow"></li>
+            <li style="background: grey"></li>
+        </ul>
 
-            </section>
+        <button class="next">Next</button>
 
-            <section data-name="third" style="background: yellow;">
-                
-                Third
-
-                <button class="first">First</button>
-                <button class="second">Second</button>
-                <button class="third">Third</button>
-
-            </section>
-            <section data-name="fourth" style="background: brown;">
-                
-                Fourth
-
-                <button class="first">First</button>
-                <button class="second">Second</button>
-                <button class="third">Third</button>
-
-            </section>
-
-        </div>  
-        
-        <script src="bower_components/rsvp/rsvp.js"></script>  
-        <script src="bower_components/requirejs/require.js"></script>        
-	   
-        <!-- Debbuger -->
-        
-	    <script src="bower_components/mp-debugger/dist/debugger.js"></script>         	
-        <script src="bower_components/mp-js-utils/app/scripts/DynamicObjects/deb.DynamicObjects.js"></script>
-        <script src="scripts/OnePageScroll/deb.OnePageScroll.js"></script>           
-
-        <!-- Dependencies -->
-        <script src="bower_components/mp-js-utils/app/scripts/DynamicObjects/DynamicObjects.js"></script>        
-        <script src="bower_components/mp-js-utils/app/scripts/DisableScroll.js"></script>        
-
-        <!-- One Page Scroll Module -->
-        <script src="scripts/OnePageScroll/OnePageScroll.js"></script>                
+    </div>
     
-        <script>
+	    <!-- RequireJS -->
+	    <script src="bower_components/rsvp/rsvp.js"></script> 
+        <script src="bower_components/requirejs/require.js"></script>  
 
-        /* global DEBUGGER, document */  
+        <!-- Jasmine -->
+        <script type="text/javascript" src="bower_components/jasmine/lib/jasmine-core/jasmine.js"></script>
+        <script type="text/javascript" src="bower_components/jasmine/lib/jasmine-core/jasmine-html.js"></script>
+        <script type="text/javascript" src="bower_components/jasmine/lib/jasmine-core/boot.js"></script>
 
-        if(typeof DEBUGGER === 'undefined') DEBUGGER = {run: function(){return true;},addMethod: function(){}};
+        <!-- Debbuger -->
+	    <script src="bower_components/mp-debugger/dist/debugger.js"></script>         	
+		<script src="dist/js/Slider/deb.Slider.js"></script>		
+             
+        <!-- include source files here... --> 
+        <script src="bower_components/mp-js-utils/app/scripts/Hooks.js"></script>
+        <script src="dist/js/Slider/Slider.js"></script>        
+
+        <!-- include spec files here... -->
+        <script src="spec/Slider.js"></script>
        
-        require(['OnePageScroll'], function(OnePageScroll){
-
-            'use strict';
-
-            var scroll = new OnePageScroll();
-
-            var events = {
-
-                first_to_second : {
-
-                    before : function(){},
-                    after: function(){}
-
-                },
-
-                second_to_first : {
-
-                    before : function(){},
-                    after: function(){}
-
-                },
-                second_to_third : {
-
-                    before : function(){},
-                    after: function(){}
-
-                },
-                third_to_fourth : {
-
-                    before : function(){},
-                    after: function(){}
-
-                },
-                third_to_first : {
-
-                    before : function(){},
-                    after: function(){}
-
-                }
-            };
-
-            scroll.init({
-                mainSelector : '#scroll-wrapper',
-                scrollTime : 800,
-                easing : 'ease-in',
-                sectionsEvents : events
-            });
-
-
-           [].forEach.call( document.querySelectorAll('button.first'), function(element){
-            
-                element.addEventListener('click', function(){
-                    
-                     scroll.scrollTo('first');
-                      
-                });
-            
-            }); 
-
-
-            [].forEach.call( document.querySelectorAll('button.second'), function(element){
-            
-                element.addEventListener('click', function(){
-                    
-                     scroll.scrollTo('second');
-                      
-                });
-            
-            });
-
-
-            [].forEach.call( document.querySelectorAll('button.third'), function(element){
-            
-                element.addEventListener('click', function(){
-                    
-                     scroll.scrollTo('third');
-                      
-                });
-            
-            }); 
-
-            document.querySelector('button.five').addEventListener('click', function(){
-
-                scroll.scrollTo('five');
-                
-            });
-
-        });
-
-        </script>
-
-</body>
+    </body>
 </html>

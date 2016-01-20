@@ -9,8 +9,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-compass": "^1.0.1",
-    "grunt-contrib-watch": "^0.6.1"
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-sass": "^2.1.1",
+    "jshint": "^2.9.1"
   }
 }

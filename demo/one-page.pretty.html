@@ -1,0 +1,181 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Sliders</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="stylesheet" type="text/css" href="styles/onePageScroll.css">
+
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+    <div id="scroll-wrapper">
+
+        <section data-name="first" style="background: green;">
+
+            First
+            <button class="first">First</button>
+            <button class="second">Second</button>
+            <button class="third">Third</button>
+
+            <button class="five">Five</button>
+
+        </section>
+
+        <section data-name="second" style="background: blue;">
+            Second
+            <button class="first">First</button>
+            <button class="second">Second</button>
+            <button class="third">Third</button>
+
+        </section>
+
+        <section data-name="third" style="background: yellow;">
+
+            Third
+
+            <button class="first">First</button>
+            <button class="second">Second</button>
+            <button class="third">Third</button>
+
+        </section>
+        <section data-name="fourth" style="background: brown;">
+
+            Fourth
+
+            <button class="first">First</button>
+            <button class="second">Second</button>
+            <button class="third">Third</button>
+
+        </section>
+
+    </div>
+
+    <script src="../bower_components/rsvp/rsvp.js"></script>
+    <script src="../bower_components/requirejs/require.js"></script>
+
+    <!-- Debbuger -->
+
+    <script src="../bower_components/mp-debugger/dist/debugger.js"></script>
+    <script src="../bower_components/mp-js-utils/app/scripts/DynamicObjects/deb.DynamicObjects.js"></script>
+    <script src="../scripts/OnePageScroll/deb.OnePageScroll.js"></script>
+
+    <!-- Dependencies -->
+    <script src="../bower_components/mp-js-utils/app/scripts/DynamicObjects/DynamicObjects.js"></script>
+    <script src="../bower_components/mp-js-utils/app/scripts/DisableScroll.js"></script>
+
+    <!-- One Page Scroll Module -->
+    <script src="../dist/js/OnePageScroll/OnePageScroll.js"></script>
+
+    <script>
+        /* global DEBUGGER, document */
+
+        if (typeof DEBUGGER === 'undefined') DEBUGGER = {
+            run: function() {
+                return true;
+            },
+            addMethod: function() {}
+        };
+
+        require(['OnePageScroll'], function(OnePageScroll) {
+
+            'use strict';
+
+            var scroll = new OnePageScroll();
+
+            var events = {
+
+                first_to_second: {
+
+                    before: function() {},
+                    after: function() {}
+
+                },
+
+                second_to_first: {
+
+                    before: function() {},
+                    after: function() {}
+
+                },
+                second_to_third: {
+
+                    before: function() {},
+                    after: function() {}
+
+                },
+                third_to_fourth: {
+
+                    before: function() {},
+                    after: function() {}
+
+                },
+                third_to_first: {
+
+                    before: function() {},
+                    after: function() {}
+
+                }
+            };
+
+            scroll.init({
+                mainSelector: '#scroll-wrapper',
+                scrollTime: 800,
+                easing: 'ease-in',
+                sectionsEvents: events
+            });
+
+
+            [].forEach.call(document.querySelectorAll('button.first'), function(element) {
+
+                element.addEventListener('click', function() {
+
+                    scroll.scrollTo('first');
+
+                });
+
+            });
+
+
+            [].forEach.call(document.querySelectorAll('button.second'), function(element) {
+
+                element.addEventListener('click', function() {
+
+                    scroll.scrollTo('second');
+
+                });
+
+            });
+
+
+            [].forEach.call(document.querySelectorAll('button.third'), function(element) {
+
+                element.addEventListener('click', function() {
+
+                    scroll.scrollTo('third');
+
+                });
+
+            });
+
+            document.querySelector('button.five').addEventListener('click', function() {
+
+                scroll.scrollTo('five');
+
+            });
+
+        });
+    </script>
+
+</body>
+
+</html>
