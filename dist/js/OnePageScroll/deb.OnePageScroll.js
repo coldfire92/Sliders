@@ -107,8 +107,10 @@ DEBUGGER.addMethod("OnePageScrollchechEventsObject", function(Vars) {
         }
         return true;
     };
-    /* is gool object
+
+    /* is good object
 	   ========================================================================== */
+    
     var isGoodObject = function(object, key) {
         var typeOfBefore = typeof object.before;
         var typeOfAfter = typeof object.after;
@@ -122,6 +124,7 @@ DEBUGGER.addMethod("OnePageScrollchechEventsObject", function(Vars) {
         }
         return true;
     };
+    
     /* Check events object
 	   ========================================================================== */
     for (var sectionsEventKey in Vars.events) {
