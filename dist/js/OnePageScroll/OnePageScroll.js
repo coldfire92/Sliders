@@ -1,10 +1,19 @@
 /* global DEBUGGER, RSVP*/
 
+var oldD;
+var f = function(){
+    var d = new Date().getTime();
+    if(typeof oldD !== 'undefined')
+        console.log(d-oldD);
+    oldD = d;
+}
+window.onscroll=f;
+
 /**
  * RSVP in global (added in preloader files)
  */
-define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicObject, DisableScroll) {
-    "use strict";
+define('OnePageScroll', [ 'DynamicObject', 'DisableScroll' ], function(DynamicObject, DisableScroll) {
+    'use strict';
     var scroller = function() {};
     
     scroller.prototype = function() {
@@ -14,42 +23,44 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
 
         var getStyles = function(offset, timeScroll) {
             var styles = {
-                "-webkit-transform": "translate(0, -" + offset + ")",
-                "-webkit-transition": "-webkit-transform " + timeScroll + "ms " + this.config.easing,
-                "-moz-transform": "translate(0, -" + offset + ")",
-                "-moz-transition": "-moz-transition " + timeScroll + "ms " + this.config.easing,
-                "-ms-transform": "translate(0, -" + offset + ")",
-                "-ms-transition": "-ms-transform " + timeScroll + "ms " + this.config.easing,
-                transform: "translate(0, -" + offset + ")",
-                transition: "transform " + timeScroll + "ms " + this.config.easing
+                '-webkit-transform': 'translate(0, -' + offset + ')',
+                '-webkit-transition': '-webkit-transform ' + timeScroll + 'ms ' + this.config.easing,
+                '-moz-transform': 'translate(0, -' + offset + ')',
+                '-moz-transition': '-moz-transition ' + timeScroll + 'ms ' + this.config.easing,
+                '-ms-transform': 'translate(0, -' + offset + ')',
+                '-ms-transition': '-ms-transform ' + timeScroll + 'ms ' + this.config.easing,
+                transform: 'translate(0, -' + offset + ')',
+                transition: 'transform ' + timeScroll + 'ms ' + this.config.easing
             };
-            var out = "";
+            var out = '';
             for (var style in styles) {
-                out += style + " : " + styles[style] + ";";
+                out += style + ' : ' + styles[style] + ';';
             }
             return out;
         };
+
         var scrollPage = function(offset, time) {
             var timeScroll = time || this.config.scrollTime;
-            this.config.mainWrapper.setAttribute("style", getStyles.call(this, offset, timeScroll));
+            this.config.mainWrapper.setAttribute('style', getStyles.call(this, offset, timeScroll));
             return new RSVP.Promise(function(ok) {
                 setTimeout(function() {
                     ok();
                     // remove style tranform
-                    if (offset === "0%") {
-                        this.config.mainWrapper.setAttribute("style", "");
+                    if (offset === '0%') {
+                        this.config.mainWrapper.setAttribute('style', '');
                     }
-                    this.config.isAnimation = false;
-                }.bind(this), timeScroll + this.config.waitAfterScroll);
+                }.bind(this), timeScroll);
             }.bind(this));
         };
+
         /* Classes
            ========================================================================== */
+        
         var addClass = function(currSection, nextSection) {
             document.body.classList.add(nextSection);
             document.body.classList.remove(currSection);
-            document.body.classList.remove("before-" + currSection);
-            document.body.classList.remove("start-" + currSection);
+            document.body.classList.remove('before-' + currSection);
+            document.body.classList.remove('start-' + currSection);
         };
     
         /* Get record
@@ -60,19 +71,19 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
             var beforeElement = this.config.sections.getKeyBefore(this.config.currentSectionName);
             var nextSectionBeforeElement = this.config.sections.getKeyBefore(nextSectionName);
             var nextSectionAfterElement = this.config.sections.getKeyAfter(nextSectionName);
-            if (action === "before" && direction === "up") {
-                return this.config.currentSectionName + "_to_" + beforeElement;
+            if (action === 'before' && direction === 'up') {
+                return this.config.currentSectionName + '_to_' + beforeElement;
             }
-            if (action === "before" && direction === "down") {
-                return this.config.currentSectionName + "_to_" + afterElement;
+            if (action === 'before' && direction === 'down') {
+                return this.config.currentSectionName + '_to_' + afterElement;
             }
-            if (action === "after" && direction === "up") {
-                return nextSectionAfterElement + "_to_" + nextSectionName;
+            if (action === 'after' && direction === 'up') {
+                return nextSectionAfterElement + '_to_' + nextSectionName;
             }
-            if (action === "after" && direction === "down") {
-                return nextSectionBeforeElement + "_to_" + nextSectionName;
+            if (action === 'after' && direction === 'down') {
+                return nextSectionBeforeElement + '_to_' + nextSectionName;
             }
-            return "";
+            return '';
         };
 
         /* Callbacks
@@ -82,19 +93,19 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
             var element;
             /* Get correct record
             ========================================================================== */
-            element = "";
+            element = '';
             if (scrollTo) {
                 element = getRecordNameWhenScrollTo.call(this, nextSectionName, action, direction);
             } else {
-                element = this.config.currentSectionName + "_to_" + nextSectionName;
+                element = this.config.currentSectionName + '_to_' + nextSectionName;
             }
             /* Test
                ========================================================================== */
-            if (typeof this.config.sectionsEvents[element] !== "undefined") {
-                DEBUGGER.run("info", "Call " + element + ":" + action, "onePageScroll");
+            if (typeof this.config.sectionsEvents[element] !== 'undefined') {
+                DEBUGGER.run('info', 'Call ' + element + ':' + action, 'onePageScroll');
                 return this.config.sectionsEvents[element];
             } else {
-                DEBUGGER.run("info", "Try to call" + element);
+                DEBUGGER.run('info', 'Try to call' + element);
             }
             // not defined, return empty
             return {
@@ -107,9 +118,15 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
            ========================================================================== */
 
         var scroll = function(nextSectionName, direction) {
+
             if (this.config.isAnimation || nextSectionName === false || !this.config.enable) {
                 return;
+            } 
+
+            if(this.config.debug){
+                DEBUGGER.run('info','Call scroll method','OnePageScroll');
             }
+
             // first or last section or dont active
             var scrollTo;
             var accelerate = 1;
@@ -119,13 +136,13 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
             var currrentIndex = this.config.sections.get(this.config.currentSectionName);
             var nextItemIndex = this.config.sections.get(nextSectionName);
             var howMuch = Math.abs(nextItemIndex - currrentIndex);
-            if (typeof direction === "undefined") {
+            if (typeof direction === 'undefined') {
                 // call by scrollTo 
                 scrollTo = true;
                 if (nextItemIndex - currrentIndex < 0) {
-                    direction = "up";
+                    direction = 'up';
                 } else {
-                    direction = "down";
+                    direction = 'down';
                 }
                 timeAllScrollTo = howMuch * this.config.scrollTime;
                 if (howMuch > 1) {
@@ -133,44 +150,60 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
                     // how much accelerate scroll
                     time = timeAllScrollTo / accelerate;
                 }
-                DEBUGGER.run("info", "Scroll to " + nextSectionName + " section in " + time + " ms ", "OnePageScroll");
+                DEBUGGER.run('info', 'Scroll to ' + nextSectionName + ' section in ' + time + ' ms ', 'OnePageScroll');
             }
+
             this.config.isAnimation = true;
             
             /* Call events
                ========================================================================== */
             
             // call before event
-            getCallbacksForSection.call(this, nextSectionName, scrollTo, "before", direction).before();
-            this.config.currentScrollClass = this.config.currentSectionName + "-" + nextSectionName;
+            getCallbacksForSection.call(this, nextSectionName, scrollTo, 'before', direction).before();
+            this.config.currentScrollClass = this.config.currentSectionName + '-' + nextSectionName;
+            
             document.body.classList.add(this.config.currentScrollClass);
-            addClass.call(this, this.config.currentSectionName, "start-" + nextSectionName);
+            addClass.call(this, this.config.currentSectionName, 'start-' + nextSectionName);
             
             // cal after method after scroll
+            
             if (scrollTo) {
                 // simulate scroll, add class to before scroll on section before destination
                 setTimeout(function() {
-                    addClass.call(this, this.config.currentSectionName, "before-" + nextSectionName);
+                    addClass.call(this, this.config.currentSectionName, 'before-' + nextSectionName);
                     if (howMuch > 2) {
                         document.body.classList.remove(this.config.currentScrollClass);
                     }
                 }.bind(this), time - this.config.scrollTime / 2);
             } else {
-                addClass.call(this, this.config.currentSectionName, "before-" + nextSectionName);
+                addClass.call(this, this.config.currentSectionName, 'before-' + nextSectionName);
             }
             
             setTimeout(function() {
-                getCallbacksForSection.call(this, nextSectionName, scrollTo, "after", direction).after();
+                addClass.call(this, this.config.currentSectionName, nextSectionName);
+                document.body.classList.add('half-' + this.config.currentScrollClass);
+            }.bind(this), time / 2);
+
+            setTimeout(function() {
+                getCallbacksForSection.call(this, nextSectionName, scrollTo, 'after', direction).after();
+                document.body.classList.remove('half-' + this.config.currentScrollClass);
                 addClass.call(this, this.config.currentSectionName, nextSectionName);
                 if (howMuch <= 2) {
                     document.body.classList.remove(this.config.currentScrollClass);
                 }
             }.bind(this), time);
             
+
+            
             /* Scroll
                ========================================================================== */
-            return scrollPage.call(this, (nextItemIndex - 1) * 100 + "%", time).then(function() {
+            
+            return scrollPage.call(this, (nextItemIndex - 1) * 100 + '%', time).then(function() {
                 this.config.currentSectionName = nextSectionName;
+                setTimeout(function(){
+                    this.config.isAnimation = false;
+                    DEBUGGER.run('warn', 'Can scroll', 'onePageScroll');
+                }.bind(this), 800);
             }.bind(this));
         };
         
@@ -178,80 +211,107 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
            ========================================================================== */
 
         var scrolTo = function(sectionName) {
-            if (this.config.isAnimation) {
-                return;
-            }
             return scroll.call(this, sectionName);
         };
 
         var moveDown = function() {
-            if (this.config.isAnimation || this.config.currentSectionName === this.config.lastSectionName) {
+            if (this.config.currentSectionName === this.config.lastSectionName) {
                 return;
             }
-            DEBUGGER.run("info", "moveDown", "onePageScroll");
+
+            DEBUGGER.run('info', 'moveDown', 'onePageScroll');
             var nextSectionName = this.config.sections.getKeyAfter(this.config.currentSectionName);
-            scroll.call(this, nextSectionName, "down");
+            scroll.call(this, nextSectionName, 'down');
         };
 
         var moveUp = function() {
-            if (this.config.isAnimation || this.config.currentSectionName === this.config.firstSectionName) {
+            if (this.config.currentSectionName === this.config.firstSectionName) {
                 return;
             }
-            DEBUGGER.run("info", "moveUp", "onePageScroll");
+
+            DEBUGGER.run('info', 'moveUp', 'onePageScroll');
             var nextSectionName = this.config.sections.getKeyBefore(this.config.currentSectionName);
-            scroll.call(this, nextSectionName, "up");
+            scroll.call(this, nextSectionName, 'up');
         };
 
         var onScroll = function(event) {
-            if (!this.config.enable) {}
-            var timeNow = new Date().getTime();
-            // Cancel scroll if currently animating or within quiet period
-            var isAnimation = timeNow - this.config.lastAnimationTime < this.config.quietPeriod + this.config.scrollTime;
-            if (isAnimation) {
-                event.preventDefault();
-                return;
+            console.log('scroll');
+
+            var e = event || window.event;
+ 
+            if (!this.config.enable || this.config.isAnimation) {
+                e.preventDefault();
+                return false;
             }
-            var delta = event.wheelDelta || -event.detail;
+           
+            /* Data
+                ========================================================================== */
+              
+            var timeNow = new Date().getTime(),
+                delta = e.wheelDelta || -e.deltaY || -e.detail,
+                timeDiff = timeNow - this.config.lastAnimationTime;
+
+            // Cancel scroll if currently animating or within quiet period
+            
+            if(timeDiff <= (this.config.scrollTime + this.config.quietPeriod)){
+                e.preventDefault();
+                return false;
+            }
+    
+            this.config.lastAnimationTime  = timeNow;
+
+            if(this.config.debug){
+                DEBUGGER.run('info','Call scroll method from scroll','OnePageScroll');
+            }
+
+            /* Scroll
+               ========================================================================== */
+
             if (delta < 0) {
                 moveDown.call(this);
             } else {
                 moveUp.call(this);
             }
-            this.config.lastAnimationTime = timeNow;
+
+            // setTimeout(function(){
+            //     this.config.lastAnimationTime  = new Date().getTime();
+            // }.bind(this), this.config.scrollTime - 120);
+            
+            return false;
         };
 
         var keyEvents = function(e) {
             var tag = e.target.tagName.toLowerCase();
             switch (e.which) {
               case 38:
-                if (tag !== "input" && tag !== "textarea") {
+                if (tag !== 'input' && tag !== 'textarea') {
                     moveUp.call(this);
                 }
                 break;
 
               case 40:
-                if (tag !== "input" && tag !== "textarea") {
+                if (tag !== 'input' && tag !== 'textarea') {
                     moveDown.call(this);
                 }
                 break;
 
               case 32:
                 //spacebar
-                if (tag !== "input" && tag !== "textarea") {
+                if (tag !== 'input' && tag !== 'textarea') {
                     moveDown.call(this);
                 }
                 break;
 
               case 33:
                 //pageg up
-                if (tag !== "input" && tag !== "textarea") {
+                if (tag !== 'input' && tag !== 'textarea') {
                     moveUp.call(this);
                 }
                 break;
 
               case 34:
                 //page dwn
-                if (tag !== "input" && tag !== "textarea") {
+                if (tag !== 'input' && tag !== 'textarea') {
                     moveDown.call(this);
                 }
                 break;
@@ -271,20 +331,19 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
             }
         };
         
-
         var addEvents = function() {
-            DEBUGGER.run("info", "Add events", "OnePageScroll");
-            window.addEventListener("mousewheel", onScroll.bind(this), false);
-            window.addEventListener("DOMMouseScroll", onScroll.bind(this), false);
-            window.addEventListener("MozMousePixelScroll", onScroll.bind(this), false);
-            document.addEventListener("keydown", keyEvents.bind(this));
+            DEBUGGER.run('info', 'Add events', 'OnePageScroll');
+            window.addEventListener('wheel', onScroll.bind(this), false);
+            // window.addEventListener('DOMMouseScroll', onScroll.bind(this), false);
+            // window.addEventListener('MozMousePixelScroll', onScroll.bind(this), false);
+            document.addEventListener('keydown', keyEvents.bind(this));
         };
 
         var addSectionEvents = function(events, sections) {
-            if (DEBUGGER.run("OnePageScrollchechEventsObject", {
+            if (DEBUGGER.run('OnePageScrollchechEventsObject', {
                 events: events,
                 sections: sections
-            }, "OnePageScroll")) {
+            }, 'OnePageScroll')) {
                 this.config.sectionsEvents = events;
             }
         };
@@ -293,7 +352,7 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
             this.config.sections = new DynamicObject();
             var first = false;
             [].forEach.call(this.config.mainSections, function(element, index) {
-                var name = element.getAttribute("data-name");
+                var name = element.getAttribute('data-name');
                 if (!first) {
                     this.config.firstSectionName = name;
                     this.config.currentSectionName = name;
@@ -313,30 +372,32 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
         return {
             config: {
                 debug : true,
-                currentScrollClass: "",
+                currentScrollClass: '',
                 mainWrapper: null,
                 mainSections: null,
                 enable: true,
-                firstSectionName: "",
-                lastSectionName: "",
-                currentSectionName: "",
+                firstSectionName: '',
+                lastSectionName: '',
+                currentSectionName: '',
+                quietPeriod : 700,
+
                 // name of current section
-                scrollTime: 122,
+                scrollTime: 300,
                 isAnimation: false,
                 isAnimationOnScroll: false,
-                easing: "ease-out",
+                easing: 'ease-out',
                 waitAfterScroll: 0,
-                quietPeriod: 400,
                 lastAnimationTime: 0,
                 sectionsEvents: {},
+                
                 // config files for sections callbacks
                 sections: null
             },
 
             init: function(config) {
-                if (DEBUGGER.run("OnePageScrollCheckConfig", {
+                if (DEBUGGER.run('OnePageScrollCheckConfig', {
                     config: config
-                }, "onePageScroll")) {
+                }, 'onePageScroll')) {
                     this.config.mainWrapper = document.querySelector(config.mainSelector);
                     this.config.mainSections = this.config.mainWrapper.children;
                     
@@ -372,11 +433,11 @@ define("OnePageScroll", [ "DynamicObject", "DisableScroll" ], function(DynamicOb
                 if (this.config.currentSectionName === section) {
                     return;
                 }
-                if (DEBUGGER.run("isGoodSectionOnePageScroll", {
+                if (DEBUGGER.run('isGoodSectionOnePageScroll', {
                     sections: sections,
                     section: section,
                     isScrollTo: true
-                }, "OnePageScroll")) {
+                }, 'OnePageScroll')) {
                     return scrolTo.call(this, section);
                 }
             },
